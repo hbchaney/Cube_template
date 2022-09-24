@@ -3,8 +3,9 @@
 #include "RotaryEncoder.hpp"
 #include "LoopElement.hpp"
 #include "Adafruit_LEDBackpack.h"
+#include "CubeSpecific.hpp"
 
-RotaryEncoder re{10,11,9};
+RotaryEncoder re{ROT_PIN1,ROT_PIN2,SWITCH_PIN};
 
 Adafruit_BicolorMatrix bm;
 
@@ -19,18 +20,21 @@ bm.begin(0x70, &Wire1);
 bm.setBrightness(10);
 bm.drawPixel(1, 1, LED_GREEN);
 bm.writeDisplay();
+re.setup();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   rotaryCache = re.pull_cache();
-  if (rotaryCache != 0) {
-  yPos = (yPos + rotaryCache) % 8;
-  
+  if (rotaryCache != 0) 
+  {
+    yPos = (yPos + rotaryCache + 8) % 8; 
 
-  bm.clear();
-  bm.drawPixel(1, yPos, colorArr[yPos % 3]);
-  bm.writeDisplay();
+
+    bm.clear();
+    bm.drawPixel(1,static_cast<uint16_t>(yPos),colorArr[yPos%3]); 
+    bm.writeDisplay();
+
   }
   
   re.loop_check();
