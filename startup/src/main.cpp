@@ -32,7 +32,7 @@ void loop() {
 
 
     bm.clear();
-    bm.drawPixel(1,static_cast<uint16_t>(yPos),colorArr[yPos%3]); 
+    bm.drawPixel(yPos,static_cast<uint16_t>(yPos),colorArr[yPos%3]); 
     bm.writeDisplay();
 
   }
